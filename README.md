@@ -2,13 +2,13 @@
 
 This is a very lightweight NeoVim configuration, made after that a another plugin broken LionVim for no reason.
 
-# Why I made this ?
+## Why I made this ?
 
 I wanted a very light and easy to fix configuration that is doing the bare minimum that I need in my everyday life.
 
 The name came from this. Lions are heavy, Lynxes are light.
 
-# What is installed in this ?
+## What is installed in this ?
 
     - Fleet and Nightfox for colorscheme
     - Telescope as file-tree, live grep, and buffers manager
@@ -16,11 +16,11 @@ The name came from this. Lions are heavy, Lynxes are light.
     - ddc.vim for autocompletion
     - nvim-autopairs
 
-# Many key(re)binds ?
+## Many key(re)binds ?
 
 My default nvim binds that I REALLY need and some whichkey like bindings coming from LionVim
 
-# Installation
+## Installation
 
 Clean (and backup if needed) your previous nvim installation. (This also serve as an uninstaller for LynxVim)
 
