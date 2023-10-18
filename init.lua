@@ -88,7 +88,7 @@ require("lazy").setup({
 	"matsui54/denops-signature_help",
 
 	-- Autopairs
-	"jiangmiao/auto-pairs",
+	"windwp/nvim-autopairs",
 
 	-- Easy Comment
 	{
@@ -96,6 +96,8 @@ require("lazy").setup({
 		config = function() require("nvim_comment").setup({ comment_empty = false }) end
 	}
 })
+
+require("nvim-autopairs").setup()
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
