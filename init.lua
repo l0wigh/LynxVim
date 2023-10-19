@@ -97,8 +97,6 @@ require("lazy").setup({
 	}
 })
 
-require("nvim-autopairs").setup()
-
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
 
@@ -218,3 +216,21 @@ vim.api.nvim_exec([[
   au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline.short()
   augroup END
 ]], false)
+
+
+local remap = vim.api.nvim_set_keymap
+local npairs = require("nvim-autopairs")
+npairs.setup({ map_cr = false })
+
+_G.MUtils = {}
+
+MUtils.completion_confirm = function()
+	local check_status = vim.call("pum#visible")
+	if check_status == true then
+		return vim.fn["pum#map#confirm"]()
+	else
+		return npairs.autopairs_cr()
+	end
+end
+
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
