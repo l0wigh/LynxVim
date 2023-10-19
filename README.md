@@ -1,4 +1,4 @@
-# LynxVim 0.1
+# LynxVim 0.1.1
 
 This is a very lightweight NeoVim configuration, made after that a another plugin broken LionVim for no reason.
 
