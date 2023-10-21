@@ -79,9 +79,12 @@ require("lazy").setup({
 	-- ddc for autocompletion
 	"vim-denops/denops.vim",
 	"Shougo/ddc.vim",
-	"Shougo/ddc-nvim-lsp",
 	"Shougo/ddc-matcher_head",
 	"Shougo/ddc-sorter_rank",
+	"Shougo/ddc-nvim-lsp", -- Source
+	"Shougo/ddc-source-around", -- Source
+	"LumaKernel/ddc-source-file", -- Source
+	"matsui54/ddc-buffer", -- Source
 	"Shougo/pum.vim",
 	"Shougo/ddc-ui-pum",
 	"matsui54/denops-popup-preview.vim",
@@ -99,8 +102,6 @@ require("lazy").setup({
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
-
--- Maybe useless
 require("mason-lspconfig").setup()
 require("mason-lspconfig").setup_handlers {
 	function (server_name)
@@ -117,26 +118,21 @@ vim.cmd [[
         \   'sorters': ['sorter_rank']},
         \ })
 
-  call ddc#custom#patch_global('sources', ['nvim-lsp'])
+  call ddc#custom#patch_global('sources', ['nvim-lsp', 'buffer', 'around', 'file'])
   call ddc#custom#patch_global('sourceOptions', {
         \ 'nvim-lsp': {
-        \   'mark': 'lsp',
+        \   'mark': 'LSP ',
         \   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
         \ })
   
-  " call popup_preview#enable()
   imap <silent><expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<TAB>'
   imap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-TAB>'
   imap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
   imap <silent><expr> <Esc> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<Esc>'
   call ddc#custom#patch_global('ui', 'pum')
+  call signature_help#enable()
+  call popup_preview#enable()
   call ddc#enable()
-]]
-
--- Loading signature help and lsp-doc
-vim.cmd [[
-	call signature_help#enable()
-	call popup_preview#enable()
 ]]
 
 -- Custom bindings based on LionVim whichkeys setup
@@ -225,8 +221,7 @@ npairs.setup({ map_cr = false })
 _G.MUtils = {}
 
 MUtils.completion_confirm = function()
-	local check_status = vim.call("pum#visible")
-	if check_status == true then
+	if vim.call("pum#visible") == true then
 		return vim.fn["pum#map#confirm"]()
 	else
 		return npairs.autopairs_cr()
