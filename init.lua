@@ -92,7 +92,6 @@ require("lazy").setup({
 	"Shougo/pum.vim",
 	"Shougo/ddc-ui-pum",
 	"matsui54/denops-popup-preview.vim",
-	-- "matsui54/denops-signature_help",
 	{
 		"ray-x/lsp_signature.nvim",
 		event = "VeryLazy",
@@ -112,8 +111,10 @@ require("lsp_signature").setup({
 	hint_enable = false,
 	noice = true,
 	floating_window = true,
+	handler_opts = {
+		border = "shadow"   -- double, rounded, single, shadow, none, or a table of borders
+	},
 })
-
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
