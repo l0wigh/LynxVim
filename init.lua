@@ -61,6 +61,10 @@ require("lazy").setup({
 		"felipeagc/fleet-theme-nvim",
 		config = function() vim.cmd("colorscheme fleet") end
 	},
+	{
+		"lunarvim/templeos.nvim",
+		-- config = function() vim.cmd("colorscheme templeos") end
+	},
 
 	-- Telescope
 	{
@@ -88,7 +92,11 @@ require("lazy").setup({
 	"Shougo/pum.vim",
 	"Shougo/ddc-ui-pum",
 	"matsui54/denops-popup-preview.vim",
-	"matsui54/denops-signature_help",
+	-- "matsui54/denops-signature_help",
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "VeryLazy",
+	},
 
 	-- Autopairs
 	"windwp/nvim-autopairs",
@@ -97,8 +105,15 @@ require("lazy").setup({
 	{
 		"terrortylor/nvim-comment",
 		config = function() require("nvim_comment").setup({ comment_empty = false }) end
-	}
+	},
 })
+
+require("lsp_signature").setup({
+	hint_enable = false,
+	noice = true,
+	floating_window = true,
+})
+
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
@@ -130,7 +145,6 @@ vim.cmd [[
   imap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
   imap <silent><expr> <Esc> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<Esc>'
   call ddc#custom#patch_global('ui', 'pum')
-  call signature_help#enable()
   call popup_preview#enable()
   call ddc#enable()
 ]]
@@ -151,6 +165,9 @@ vim.cmd [[
 	nnoremap <space>lR <cmd>lua vim.lsp.buf.references()<CR>
 	nnoremap <space>lD <cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap <space>lr <cmd>lua vim.lsp.buf.rename()<CR>
+	nnoremap <space>ln <cmd>lua vim.diagnostic.goto_next()<CR>
+	nnoremap <space>lp <cmd>lua vim.diagnostic.goto_prev()<CR>
+	nnoremap <space>ld <cmd>lua vim.diagnostic.open_float()<CR>
 	nnoremap <space>lS <cmd>Telescope lsp_workspace_symbols<CR>
 	nnoremap <space>ls <cmd>Telescope lsp_document_symbols<CR>
 ]]
