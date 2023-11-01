@@ -54,16 +54,13 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- Themes
 	{
-		"EdenEast/nightfox.nvim",
-		-- config = function() vim.cmd("colorscheme dayfox") end
-	},
-	{
 		"felipeagc/fleet-theme-nvim",
-		config = function() vim.cmd("colorscheme fleet") end
+		-- config = function() vim.cmd("colorscheme fleet") end
 	},
 	{
-		"lunarvim/templeos.nvim",
-		-- config = function() vim.cmd("colorscheme templeos") end
+		"catppuccin/nvim",
+		name = "catppuccin",
+		config = function() vim.cmd("colorscheme catppuccin-mocha") end
 	},
 
 	-- Telescope
@@ -112,7 +109,7 @@ require("lsp_signature").setup({
 	noice = true,
 	floating_window = true,
 	handler_opts = {
-		border = "shadow"   -- double, rounded, single, shadow, none, or a table of borders
+		border = "none"   -- double, rounded, single, shadow, none, or a table of borders
 	},
 })
 
@@ -150,6 +147,15 @@ vim.cmd [[
   call ddc#enable()
 ]]
 
+function Lynx_newfile()
+	local file = vim.fn.input("New file: ", "", "file")
+	if string.len(file) ~= 0 then
+		vim.cmd("e " .. file)
+	else
+		vim.cmd("enew")
+	end
+end
+
 -- Custom bindings based on LionVim whichkeys setup
 vim.cmd [[
 	nnoremap <space>bb <cmd>Telescope buffers<CR>
@@ -157,6 +163,7 @@ vim.cmd [[
 	nnoremap <space>e <cmd>Telescope find_files<CR>
 
 	nnoremap <space>C <cmd>e ~/.config/nvim/init.lua<CR>
+	nnoremap <space>bc <cmd>bdelete<CR>
 
 	nnoremap <space>/ <cmd>CommentToggle<CR>
 	vnoremap <space>/ <cmd>norm gc<CR>
@@ -171,6 +178,7 @@ vim.cmd [[
 	nnoremap <space>ld <cmd>lua vim.diagnostic.open_float()<CR>
 	nnoremap <space>lS <cmd>Telescope lsp_workspace_symbols<CR>
 	nnoremap <space>ls <cmd>Telescope lsp_document_symbols<CR>
+	nnoremap <space>fn <cmd>lua Lynx_newfile()<CR>
 ]]
 
 -- LynxLine Alpha 1
