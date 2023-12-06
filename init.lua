@@ -131,7 +131,7 @@ vim.cmd [[
         \   'sorters': ['sorter_rank']},
         \ })
 
-  call ddc#custom#patch_global('sources', ['nvim-lsp', 'buffer', 'around', 'file'])
+  call ddc#custom#patch_global('sources', ['lsp', 'buffer', 'around', 'file'])
   call ddc#custom#patch_global('sourceOptions', {
         \ 'nvim-lsp': {
         \   'mark': 'LSP ',
