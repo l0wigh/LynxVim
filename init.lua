@@ -31,7 +31,8 @@ set nobackup
 set undofile
 set undodir=~/.config/nvim/undodir
 set list
-set listchars=tab:\|\ 
+" set listchars=tab:\|\ 
+set listchars=tab:\ \ 
 set noerrorbells
 set laststatus=3
 set signcolumn=no
@@ -60,7 +61,17 @@ require("lazy").setup({
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		config = function() vim.cmd("colorscheme catppuccin-mocha") end
+		-- config = function() vim.cmd("colorscheme catppuccin-mocha") end
+	},
+
+	-- Themes testing
+	{
+		"https://github.com/rebelot/kanagawa.nvim",
+		-- config = function() vim.cmd("colorscheme kanagawa-dragon") end
+	},
+	{
+		"https://github.com/nyoom-engineering/oxocarbon.nvim",
+		config = function() vim.cmd("colorscheme oxocarbon") end
 	},
 
 	-- Telescope
@@ -131,7 +142,7 @@ vim.cmd [[
         \   'sorters': ['sorter_rank']},
         \ })
 
-  call ddc#custom#patch_global('sources', ['nvim-lsp', 'buffer', 'around', 'file'])
+  call ddc#custom#patch_global('sources', ['lsp', 'buffer', 'around', 'file'])
   call ddc#custom#patch_global('sourceOptions', {
         \ 'nvim-lsp': {
         \   'mark': 'LSP ',
