@@ -1,6 +1,6 @@
 # LynxVim 0.1.2
 
-This is a very lightweight NeoVim configuration, made after that a another plugin broken LionVim for no reason.
+This is a very lightweight NeoVim configuration, made after that another plugin broke LionVim for no reason.
 
 The goal with this configuration is to stay under 30 plugins and 300 lines (the lines limit might be removed some days).
 
@@ -12,7 +12,7 @@ The name came from this. Lions are heavy, Lynxes are light.
 
 ## What is installed in this ?
 
-    - Fleet and Catppuccin for colorschemes
+    - Catppuccin (default) and Fleet for colorschemes
     - Telescope as file-tree, live grep, and buffers manager
     - Treesitter, lspconfig and Mason
     - ddc.vim for autocompletion
