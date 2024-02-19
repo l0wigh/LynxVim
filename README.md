@@ -15,7 +15,7 @@ The name came from this. Lions are heavy, Lynxes are light.
     - Catppuccin (default) and Fleet for colorschemes
     - Telescope as file-tree, live grep, and buffers manager
     - Treesitter, lspconfig and Mason
-    - ddc.vim for autocompletion
+    - nvim-cmp for autocompletion
     - nvim-autopairs
     - lsp_signature
 
@@ -43,4 +43,4 @@ If you are on Arch based distro, everything is automatic.
 
 If you are on Debian based distro, you'll need to add Deno to your path. The instructions are written during the installation script.
 
-If you are on something else. Install the dependencies : git ripgrep deno. And copy the init.lua into ~/.config/nvim/
+If you are on something else. Install the dependencies : git ripgrep. And copy the init.lua into ~/.config/nvim/
