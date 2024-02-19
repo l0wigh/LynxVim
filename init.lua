@@ -63,16 +63,13 @@ require("lazy").setup({
 		name = "catppuccin",
 		-- config = function() vim.cmd("colorscheme catppuccin-mocha") end
 	},
+	{
+		"rebelot/kanagawa.nvim",
+		config = function() vim.cmd("colorscheme kanagawa") end
+	},
 
-	-- Themes testing
-	{
-		"https://github.com/rebelot/kanagawa.nvim",
-		-- config = function() vim.cmd("colorscheme kanagawa-dragon") end
-	},
-	{
-		"https://github.com/nyoom-engineering/oxocarbon.nvim",
-		config = function() vim.cmd("colorscheme oxocarbon") end
-	},
+	-- Easy transparent background
+	"xiyaowong/transparent.nvim",
 
 	-- Telescope
 	{
@@ -88,18 +85,15 @@ require("lazy").setup({
 		config = function() require("mason").setup() end
 	},
 
-	-- ddc for autocompletion
-	"vim-denops/denops.vim",
-	"Shougo/ddc.vim",
-	"Shougo/ddc-matcher_head",
-	"Shougo/ddc-sorter_rank",
-	"Shougo/ddc-nvim-lsp", -- Source
-	"Shougo/ddc-source-around", -- Source
-	"LumaKernel/ddc-source-file", -- Source
-	"matsui54/ddc-buffer", -- Source
-	"Shougo/pum.vim",
-	"Shougo/ddc-ui-pum",
-	"matsui54/denops-popup-preview.vim",
+	-- Autocompletion (nvim-cmp)
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	"L3MON4D3/LuaSnip",
+	"saadparwaiz1/cmp_luasnip",
+
 	{
 		"ray-x/lsp_signature.nvim",
 		event = "VeryLazy",
@@ -134,29 +128,76 @@ require("mason-lspconfig").setup_handlers {
 	end,
 }
 
--- Configuration of ddc.vim
-vim.cmd [[ 
-  call ddc#custom#patch_global('sourceOptions', {
-        \ '_': {
-        \   'matchers': ['matcher_head'],
-        \   'sorters': ['sorter_rank']},
-        \ })
+-- Configuration of nvim-cmp
+local cmp = require("cmp")
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp_window = require "cmp.utils.window"
+require("luasnip").setup()
 
-  call ddc#custom#patch_global('sources', ['lsp', 'buffer', 'around', 'file'])
-  call ddc#custom#patch_global('sourceOptions', {
-        \ 'nvim-lsp': {
-        \   'mark': 'LSP ',
-        \   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
-        \ })
-  
-  imap <silent><expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<TAB>'
-  imap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-TAB>'
-  imap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-  imap <silent><expr> <Esc> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<Esc>'
-  call ddc#custom#patch_global('ui', 'pum')
-  call popup_preview#enable()
-  call ddc#enable()
-]]
+cmp.setup({
+	window = {
+		documentation = {
+			winhighlight = "Normal:Pmenu",
+		},
+	},
+    snippet = {
+      expand = function(args)
+		  require('luasnip').lsp_expand(args.body)
+      end,
+    },
+	mapping = cmp.mapping.preset.insert({
+		["<Tab>"] = cmp.mapping.select_next_item(),
+		["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<Esc>"] = cmp.mapping.abort(),
+	}),
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp", max_item_count = 5 },
+		{ name = "luasnip", max_item_count = 3 },
+		{ name = "buffer", max_item_count = 3 },
+		{ name = "path", max_item_count = 3 },
+	}),
+	experimental = {
+		ghost_text = true
+	}
+})
+
+-- Set configuration for specific filetype.
+cmp.setup.filetype('gitcommit', {
+	sources = cmp.config.sources({
+		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+	}, {
+		{ name = 'buffer' },
+	})
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer', max_item_count = 10 }
+	}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = 'path', max_item_count = 10 }
+	}, {
+		{ name = 'cmdline', max_item_count = 10 }
+	})
+})
+
+require("nvim-autopairs").setup()
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+
+local luasnip = require('luasnip')
+luasnip.config.set_config {
+	history = true,
+	updateevents = "TextChanged,TextChangedI"
+}
+require("luasnip/loaders/from_vscode").lazy_load()
 
 function Lynx_newfile()
 	local file = vim.fn.input("New file: ", "", "file")
@@ -249,20 +290,3 @@ vim.api.nvim_exec([[
   au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline.short()
   augroup END
 ]], false)
-
-
-local remap = vim.api.nvim_set_keymap
-local npairs = require("nvim-autopairs")
-npairs.setup({ map_cr = false })
-
-_G.MUtils = {}
-
-MUtils.completion_confirm = function()
-	if vim.call("pum#visible") == true then
-		return vim.fn["pum#map#confirm"]()
-	else
-		return npairs.autopairs_cr()
-	end
-end
-
-remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})

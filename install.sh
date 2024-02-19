@@ -3,13 +3,12 @@
 ARCH=/usr/bin/pacman
 DEB=/usr/bin/apt
 if [ -f "$ARCH" ]; then
-    sudo pacman -S git curl ripgrep deno
+    sudo pacman -S git curl ripgrep
 elif [ -f "$DEB" ]; then
     sudo apt install git curl ripgrep
-	curl -fsSL https://deno.land/x/install/install.sh | sh
 else
 	echo "Please install this before launching nvim :"
-	echo "git ripgrep deno"
+	echo "git ripgrep"
 fi
 
 FILE=~/.config/nvim/
