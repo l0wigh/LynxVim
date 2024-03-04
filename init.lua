@@ -61,11 +61,11 @@ require("lazy").setup({
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		-- config = function() vim.cmd("colorscheme catppuccin-mocha") end
+		config = function() vim.cmd("colorscheme catppuccin-mocha") end
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		config = function() vim.cmd("colorscheme kanagawa") end
+		-- config = function() vim.cmd("colorscheme kanagawa") end
 	},
 
 	-- Easy transparent background
@@ -111,12 +111,14 @@ require("lazy").setup({
 
 require("lsp_signature").setup({
 	hint_enable = false,
-	noice = true,
+	noice = false,
 	floating_window = true,
+	hi_parameter = "None",
 	handler_opts = {
-		border = "none"   -- double, rounded, single, shadow, none, or a table of borders
+		border = "rounded"   -- double, rounded, single, shadow, none, or a table of borders
 	},
 })
+
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
@@ -132,13 +134,26 @@ require("mason-lspconfig").setup_handlers {
 local cmp = require("cmp")
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp_window = require "cmp.utils.window"
-require("luasnip").setup()
+local function border(hl_name)
+  return {
+    { "╭", hl_name },
+    { "─", hl_name },
+    { "╮", hl_name },
+    { "│", hl_name },
+    { "╯", hl_name },
+    { "─", hl_name },
+    { "╰", hl_name },
+    { "│", hl_name },
+  }
+end
 
 cmp.setup({
 	window = {
-		documentation = {
-			winhighlight = "Normal:Pmenu",
+		completion = {
+			border = border('CmpBorder'),
+			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
 		},
+		documentation = completion
 	},
     snippet = {
       expand = function(args)
@@ -152,9 +167,9 @@ cmp.setup({
 		["<Esc>"] = cmp.mapping.abort(),
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", max_item_count = 5 },
+		{ name = "nvim_lsp" },
 		{ name = "luasnip", max_item_count = 3 },
-		{ name = "buffer", max_item_count = 3 },
+		{ name = "buffer", max_item_count = 5 },
 		{ name = "path", max_item_count = 3 },
 	}),
 	experimental = {
@@ -213,6 +228,7 @@ vim.cmd [[
 	nnoremap <space>bb <cmd>Telescope buffers<CR>
 	nnoremap <space>ptl <cmd>Telescope live_grep<CR>
 	nnoremap <space>e <cmd>Telescope find_files<CR>
+	nnoremap <space>t <cmd>TransparentToggle<CR>
 
 	nnoremap <space>C <cmd>e ~/.config/nvim/init.lua<CR>
 	nnoremap <space>bc <cmd>bdelete<CR>
@@ -233,16 +249,20 @@ vim.cmd [[
 	nnoremap <space>fn <cmd>lua Lynx_newfile()<CR>
 ]]
 
--- LynxLine Alpha 1
+-- LynxLine Alpha 2
 local function lynxline_fileandline()
 	local name = vim.fn.expand "%:t"
-	local line_number = ""
-	if vim.bo.filetype == "alpha" then
-		line_number = ""
+	local saved = ""
+	if vim.bo.modified then
+		saved = "%#DiagnosticError#"
 	else
-		line_number = ":%l"
+		saved = "%#DiagnosticHint#"
 	end
-	return name
+	return saved .. name .. "%#Statusline#"
+end
+
+local function lynxline_filetype()
+  return string.format("%s", vim.bo.filetype):upper()
 end
 
 local function lynxline_lsp()
@@ -262,8 +282,19 @@ local function lynxline_lsp()
 	return errors .. warnings .. hints .. info .. "%#Statusline#"
 end
 
-local function filetype()
-  return string.format("%s", vim.bo.filetype):upper()
+-- TODO: Fix this ! Broken when more than two servers are opened
+local function lynxline_activelsp()
+	if lynxline_filetype() == "" then
+		return ""
+	end
+	local active_lsp = vim.lsp.buf_get_clients(0)
+	if active_lsp ~= nil then
+		for i = 1, #(active_lsp), 1 do
+			if active_lsp[i] ~= nil then
+				return "[" .. active_lsp[i].name:match( "^%s*(.-)%s*$" ) .. "]"
+			end
+		end
+	end
 end
 
 Statusline = {}
@@ -274,8 +305,10 @@ Statusline.active = function()
 		"  ",
 		lynxline_fileandline(),
 		"  ",
-		filetype(),
+		lynxline_filetype(),
 		"  ",
+		lynxline_activelsp(),
+		" ",
 		lynxline_lsp(),
 	}
 end
