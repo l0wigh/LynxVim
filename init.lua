@@ -113,12 +113,12 @@ require("lsp_signature").setup({
 	hint_enable = false,
 	noice = false,
 	floating_window = true,
-	hi_parameter = "None",
 	handler_opts = {
 		border = "rounded"   -- double, rounded, single, shadow, none, or a table of borders
 	},
 })
-
+-- Transparent Background on lsp_signature
+vim.cmd("hi NormalFloat guibg=none")
 
 -- Better (useless) Mason icons
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
@@ -153,7 +153,10 @@ cmp.setup({
 			border = border('CmpBorder'),
 			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
 		},
-		documentation = completion
+		documentation = {
+			border = border('CmpBorder'),
+			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+		},
 	},
     snippet = {
       expand = function(args)
