@@ -94,6 +94,7 @@ require("lazy").setup({
 	"L3MON4D3/LuaSnip",
 	"saadparwaiz1/cmp_luasnip",
 
+	-- Lsp signature when typing arguments
 	{
 		"ray-x/lsp_signature.nvim",
 		event = "VeryLazy",
@@ -255,13 +256,11 @@ vim.cmd [[
 -- LynxLine Alpha 2
 local function lynxline_fileandline()
 	local name = vim.fn.expand "%:t"
-	local saved = ""
+	local is_saved = ""
 	if vim.bo.modified then
-		saved = "%#DiagnosticError#"
-	else
-		saved = "%#DiagnosticHint#"
+		is_saved = "+"
 	end
-	return saved .. name .. "%#Statusline#"
+	return is_saved .. name
 end
 
 local function lynxline_filetype()
@@ -285,21 +284,6 @@ local function lynxline_lsp()
 	return errors .. warnings .. hints .. info .. "%#Statusline#"
 end
 
--- TODO: Fix this ! Broken when more than two servers are opened
-local function lynxline_activelsp()
-	if lynxline_filetype() == "" then
-		return ""
-	end
-	local active_lsp = vim.lsp.buf_get_clients(0)
-	if active_lsp ~= nil then
-		for i = 1, #(active_lsp), 1 do
-			if active_lsp[i] ~= nil then
-				return "[" .. active_lsp[i].name:match( "^%s*(.-)%s*$" ) .. "]"
-			end
-		end
-	end
-end
-
 Statusline = {}
 Statusline.active = function()
 	return table.concat {
@@ -309,8 +293,6 @@ Statusline.active = function()
 		lynxline_fileandline(),
 		"  ",
 		lynxline_filetype(),
-		"  ",
-		lynxline_activelsp(),
 		" ",
 		lynxline_lsp(),
 	}
