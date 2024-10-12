@@ -61,7 +61,12 @@ require("lazy").setup({
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		config = function() vim.cmd("colorscheme catppuccin-mocha") end
+		-- config = function() vim.cmd("colorscheme catppuccin-mocha") end
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		config = function() vim.cmd("colorscheme rose-pine") end
 	},
 	{
 		"rebelot/kanagawa.nvim",
@@ -115,7 +120,10 @@ require("lsp_signature").setup({
 	noice = false,
 	floating_window = true,
 	handler_opts = {
-		border = "rounded"   -- double, rounded, single, shadow, none, or a table of borders
+		border = {
+			{"╭", "NormalFloat"}, {"─", "NormalFloat"}, {"╮", "NormalFloat"}, {"│", "NormalFloat"},
+			{"╯", "NormalFloat"}, {"─", "NormalFloat"}, {"╰", "NormalFloat"}, {"│", "NormalFloat"}
+		}   -- double, rounded, single, shadow, none, or a table of borders
 	},
 })
 -- Transparent Background on lsp_signature
@@ -135,27 +143,25 @@ require("mason-lspconfig").setup_handlers {
 local cmp = require("cmp")
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp_window = require "cmp.utils.window"
-local function border(hl_name)
-  return {
-    { "╭", hl_name },
-    { "─", hl_name },
-    { "╮", hl_name },
-    { "│", hl_name },
-    { "╯", hl_name },
-    { "─", hl_name },
-    { "╰", hl_name },
-    { "│", hl_name },
-  }
-end
+local border = {
+    { "╭", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╮", "CmpBorder" },
+    { "│", "CmpBorder" },
+    { "╯", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╰", "CmpBorder" },
+    { "│", "CmpBorder" },
+}
 
 cmp.setup({
 	window = {
 		completion = {
-			border = border('CmpBorder'),
+			border = border,
 			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
 		},
 		documentation = {
-			border = border('CmpBorder'),
+			border = border,
 			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
 		},
 	},
