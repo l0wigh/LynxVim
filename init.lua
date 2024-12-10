@@ -66,7 +66,11 @@ require("lazy").setup({
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
-		config = function() vim.cmd("colorscheme rose-pine") end
+		-- config = function() vim.cmd("colorscheme rose-pine") end
+	},
+	{
+		"olimorris/onedarkpro.nvim",
+		config = function() vim.cmd("colorscheme onedark") end
 	},
 	{
 		"rebelot/kanagawa.nvim",
@@ -87,7 +91,14 @@ require("lazy").setup({
 	{
 		"williamboman/mason.nvim",
 		dependencies = { "neovim/nvim-lspconfig", "williamboman/mason-lspconfig.nvim" },
-		config = function() require("mason").setup() end
+		config = function()
+			require("mason").setup()
+			require'nvim-treesitter.configs'.setup {
+				highlight = {
+					enable = true
+				}
+			}
+		end
 	},
 
 	-- Autocompletion (nvim-cmp)
@@ -96,7 +107,10 @@ require("lazy").setup({
 	"hrsh7th/cmp-buffer",
 	"hrsh7th/cmp-path",
 	"hrsh7th/cmp-cmdline",
-	"L3MON4D3/LuaSnip",
+	{
+		"L3MON4D3/LuaSnip",
+		version = "v2.3", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+	},
 	"saadparwaiz1/cmp_luasnip",
 
 	-- Lsp signature when typing arguments
@@ -165,26 +179,26 @@ cmp.setup({
 			winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
 		},
 	},
-    snippet = {
-      expand = function(args)
-		  require('luasnip').lsp_expand(args.body)
-      end,
-    },
 	mapping = cmp.mapping.preset.insert({
 		["<Tab>"] = cmp.mapping.select_next_item(),
 		["<S-Tab>"] = cmp.mapping.select_prev_item(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<Esc>"] = cmp.mapping.abort(),
 	}),
+	snippet = {
+      expand = function(args)
+        require'luasnip'.lsp_expand(args.body)
+      end
+    },
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		{ name = "luasnip", max_item_count = 3 },
-		{ name = "buffer", max_item_count = 5 },
-		{ name = "path", max_item_count = 3 },
+		{ name = "buffer" },
+		{ name = "path" },
+		{ name = "luasnip" },
 	}),
 	experimental = {
 		ghost_text = true
-	}
+	},
 })
 
 -- Set configuration for specific filetype.
@@ -216,13 +230,6 @@ cmp.setup.cmdline(':', {
 
 require("nvim-autopairs").setup()
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-
-local luasnip = require('luasnip')
-luasnip.config.set_config {
-	history = true,
-	updateevents = "TextChanged,TextChangedI"
-}
-require("luasnip/loaders/from_vscode").lazy_load()
 
 function Lynx_newfile()
 	local file = vim.fn.input("New file: ", "", "file")
