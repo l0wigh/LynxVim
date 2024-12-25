@@ -127,6 +127,8 @@ require("lazy").setup({
 		"terrortylor/nvim-comment",
 		config = function() require("nvim_comment").setup({ comment_empty = false }) end
 	},
+
+	{'akinsho/toggleterm.nvim', version = "*", config = true }
 })
 
 require("lsp_signature").setup({
@@ -264,7 +266,15 @@ vim.cmd [[
 	nnoremap <space>lS <cmd>Telescope lsp_workspace_symbols<CR>
 	nnoremap <space>ls <cmd>Telescope lsp_document_symbols<CR>
 	nnoremap <space>fn <cmd>lua Lynx_newfile()<CR>
+	nnoremap <space>: <cmd>ToggleTerm size=10 dir=./ direction=horizontal<CR>
 ]]
+
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+end
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 -- LynxLine Alpha 2
 local function lynxline_fileandline()
@@ -321,3 +331,12 @@ vim.api.nvim_exec([[
   au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline.short()
   augroup END
 ]], false)
+
+if vim.g.neovide then
+	-- vim.o.guifont = "RobotoMono Nerd Font:h10"
+	vim.o.guifont = "VictorMono Nerd Font:h10"
+	vim.g.neovide_padding_top    = 10
+	vim.g.neovide_padding_bottom = 10
+	vim.g.neovide_padding_right  = 10
+	vim.g.neovide_padding_left   = 10
+end
