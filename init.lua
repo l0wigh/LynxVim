@@ -32,7 +32,8 @@ set undofile
 set undodir=~/.config/nvim/undodir
 set list
 " set listchars=tab:\|\ 
-set listchars=tab:\ \ 
+set listchars=tab:\▏\ 
+" set listchars=tab:\ \ 
 set noerrorbells
 set laststatus=3
 set signcolumn=no
@@ -128,7 +129,9 @@ require("lazy").setup({
 		config = function() require("nvim_comment").setup({ comment_empty = false }) end
 	},
 
-	{'akinsho/toggleterm.nvim', version = "*", config = true }
+	-- Terminal inside neovim
+	{'akinsho/toggleterm.nvim', version = "*", config = true },
+
 })
 
 require("lsp_signature").setup({
@@ -160,14 +163,14 @@ local cmp = require("cmp")
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp_window = require "cmp.utils.window"
 local border = {
-    { "╭", "CmpBorder" },
-    { "─", "CmpBorder" },
-    { "╮", "CmpBorder" },
-    { "│", "CmpBorder" },
-    { "╯", "CmpBorder" },
-    { "─", "CmpBorder" },
-    { "╰", "CmpBorder" },
-    { "│", "CmpBorder" },
+	{ "╭", "CmpBorder" },
+	{ "─", "CmpBorder" },
+	{ "╮", "CmpBorder" },
+	{ "│", "CmpBorder" },
+	{ "╯", "CmpBorder" },
+	{ "─", "CmpBorder" },
+	{ "╰", "CmpBorder" },
+	{ "│", "CmpBorder" },
 }
 
 cmp.setup({
@@ -188,10 +191,10 @@ cmp.setup({
 		["<Esc>"] = cmp.mapping.abort(),
 	}),
 	snippet = {
-      expand = function(args)
-        require'luasnip'.lsp_expand(args.body)
-      end
-    },
+		expand = function(args)
+			require'luasnip'.lsp_expand(args.body)
+		end
+	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "buffer" },
@@ -244,35 +247,36 @@ end
 
 -- Custom bindings based on LionVim whichkeys setup
 vim.cmd [[
-	nnoremap <space>bb <cmd>Telescope buffers<CR>
-	nnoremap <space>ptl <cmd>Telescope live_grep<CR>
-	nnoremap <space>e <cmd>Telescope find_files<CR>
-	nnoremap <space>t <cmd>TransparentToggle<CR>
+nnoremap <space>bb <cmd>Telescope buffers<CR>
+nnoremap <space>ptl <cmd>Telescope live_grep<CR>
+nnoremap <space>e <cmd>Telescope find_files<CR>
+nnoremap <space>t <cmd>TransparentToggle<CR>
 
-	nnoremap <space>C <cmd>e ~/.config/nvim/init.lua<CR>
-	nnoremap <space>bc <cmd>bdelete<CR>
+nnoremap <space>C <cmd>e ~/.config/nvim/init.lua<CR>
+nnoremap <space>bc <cmd>bdelete<CR>
 
-	nnoremap <space>/ <cmd>CommentToggle<CR>
-	vnoremap <space>/ <cmd>norm gc<CR>
+nnoremap <space>/ <cmd>CommentToggle<CR>
+vnoremap <space>/ <cmd>norm gc<CR>
 
-	nnoremap <space>lh <cmd>lua vim.lsp.buf.hover()<CR>
-	nnoremap <space>lc <cmd>lua vim.lsp.buf.code_action()<CR>
-	nnoremap <space>lR <cmd>lua vim.lsp.buf.references()<CR>
-	nnoremap <space>lD <cmd>lua vim.lsp.buf.definition()<CR>
-	nnoremap <space>lr <cmd>lua vim.lsp.buf.rename()<CR>
-	nnoremap <space>ln <cmd>lua vim.diagnostic.goto_next()<CR>
-	nnoremap <space>lp <cmd>lua vim.diagnostic.goto_prev()<CR>
-	nnoremap <space>ld <cmd>lua vim.diagnostic.open_float()<CR>
-	nnoremap <space>lS <cmd>Telescope lsp_workspace_symbols<CR>
-	nnoremap <space>ls <cmd>Telescope lsp_document_symbols<CR>
-	nnoremap <space>fn <cmd>lua Lynx_newfile()<CR>
-	nnoremap <space>: <cmd>ToggleTerm size=10 dir=./ direction=horizontal<CR>
+nnoremap <space>lh <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <space>lc <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <space>lR <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <space>lD <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <space>lr <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <space>ln <cmd>lua vim.diagnostic.goto_next()<CR>
+nnoremap <space>lp <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <space>ld <cmd>lua vim.diagnostic.open_float()<CR>
+nnoremap <space>lS <cmd>Telescope lsp_workspace_symbols<CR>
+nnoremap <space>ls <cmd>Telescope lsp_document_symbols<CR>
+nnoremap <space>fn <cmd>lua Lynx_newfile()<CR>
+nnoremap <space>: <cmd>ToggleTerm size=10 dir=./ direction=horizontal<CR>
 ]]
 
+-- Configuration for ToggleTerm
 function _G.set_terminal_keymaps()
-  local opts = {buffer = 0}
-  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+	local opts = {buffer = 0}
+	vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+	vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
 end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
@@ -287,7 +291,7 @@ local function lynxline_fileandline()
 end
 
 local function lynxline_filetype()
-  return string.format("%s", vim.bo.filetype):upper()
+	return string.format("%s", vim.bo.filetype):upper()
 end
 
 local function lynxline_lsp()
@@ -324,12 +328,12 @@ Statusline.inactive = function() return " %F" end
 Statusline.short = function() return " LynxVim" end
 
 vim.api.nvim_exec([[
-  augroup Statusline
-  au!
-  au WinEnter,BufEnter * setlocal statusline=%!v:lua.Statusline.active()
-  au WinLeave,BufLeave * setlocal statusline=%!v:lua.Statusline.inactive()
-  au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline.short()
-  augroup END
+augroup Statusline
+au!
+au WinEnter,BufEnter * setlocal statusline=%!v:lua.Statusline.active()
+au WinLeave,BufLeave * setlocal statusline=%!v:lua.Statusline.inactive()
+au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline.short()
+augroup END
 ]], false)
 
 if vim.g.neovide then
