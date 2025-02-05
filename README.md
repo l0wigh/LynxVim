@@ -1,6 +1,6 @@
 # LynxVim 0.2.0
 
-Carefully crafted Neovim *config* that aims to be lightweight and reliable.
+Carefully crafted Neovim **config** that aims to be lightweight and reliable.
 
 This is a good starting point for anyone trying to make their own config from (almost) scratch.
 
