@@ -11,11 +11,11 @@ function lynx_compilefix()
 end
 
 function lynx_setcustomcommand()
-	local command = vim.fn.input("Compile Command: ", "", "command")
 	local bufnr = vim.api.nvim_win_get_buf(vim.fn.win_getid())
+	local default_makeprg = vim.api.nvim_buf_get_option(bufnr, "makeprg")
+	local command = vim.fn.input("Compile Command: ", default_makeprg, "command")
 
 	if string.len(command) ~= 0 then
-		local type = vim.bo.filetype
 		vim.api.nvim_buf_set_option(bufnr, "makeprg", command)
 		vim.print("\nNew compile command set");
 	else
