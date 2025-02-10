@@ -6,6 +6,14 @@ return {
 	{
 		"luisiacc/gruvbox-baby",
 		"edeneast/nightfox.nvim",
+		{
+			"L0Wigh/zenith.nvim",
+			dependencies = "rktjmp/lush.nvim"
+		},
+		{
+			"L0Wigh/vanessa.nvim",
+			dependencies = "rktjmp/lush.nvim"
+		},
 	},
 
 	-- Find anything anywhere

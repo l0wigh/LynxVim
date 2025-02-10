@@ -1,4 +1,5 @@
 function lynx_compilefix()
+	print("Compiling...")
 	vim.cmd(":silent w");
 	vim.cmd(":silent make");
 	local quickfix_list = vim.fn.getqflist()
