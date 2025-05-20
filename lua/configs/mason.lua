@@ -1,13 +1,25 @@
 local map = vim.keymap.set
 
 require("mason").setup({ ui = { icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" } } })
-require("mason-lspconfig").setup()
-require("mason-lspconfig").setup_handlers {
-	function (server_name)
-		local lsp_options = {}
-		require("lspconfig")[server_name].setup ( lsp_options )
-	end,
-}
+require("mason-lspconfig").setup({
+	{ automatic_enable = true }
+
+	-- Just in case
+	-- handlers = {
+	-- 	function (server_name)
+	-- 		local lsp_options = {}
+	-- 		require("lspconfig")[server_name].setup ( lsp_options )
+	-- 	end
+	-- }
+})
+
+-- Just in case
+-- require("mason-lspconfig").setup_handlers {
+-- 	function (server_name)
+-- 		local lsp_options = {}
+-- 		require("lspconfig")[server_name].setup ( lsp_options )
+-- 	end,
+-- }
 
 map("n", "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<CR>")
 map("n", "<leader>lc", "<cmd>lua vim.lsp.buf.code_action()<CR>")

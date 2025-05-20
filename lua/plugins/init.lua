@@ -4,8 +4,10 @@ return {
 
 	-- Themes
 	{
+		"nyoom-engineering/oxocarbon.nvim",
 		"luisiacc/gruvbox-baby",
 		"edeneast/nightfox.nvim",
+		"LunarVim/templeos.nvim",
 		{
 			"L0Wigh/zenith.nvim",
 			dependencies = "rktjmp/lush.nvim"
@@ -85,5 +87,10 @@ return {
 		config = function ()
 			require("configs.toggleterm")
 		end
+	},
+
+	-- Arturo support
+	{
+		"xigoi/vim-arturo"
 	},
 }

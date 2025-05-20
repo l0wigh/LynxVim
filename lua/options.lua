@@ -28,7 +28,8 @@ vim.cmd [[ set undodir=~/.cache/nvim_undodir ]]
 
 -- Fancy symbol for tabs charaters !
 vim.o.list = true
-vim.cmd [[ set listchars=tab:\▏\ ]]
+-- vim.cmd [[ set listchars=tab:\▏\ ]]
+vim.cmd [[ set listchars=tab:\ \ ]]
 
 vim.cmd [[
 augroup MakeCommand
@@ -38,6 +39,11 @@ augroup MakeCommand
 	autocmd FileType v    setlocal makeprg=v\ .
 augroup END
 ]]
+
+vim.cmd [[
+	autocmd BufNewFile,BufRead *.s,*.S,*.asm :set filetype=nasm
+]]
+
 
 -- This comes from NVChad, it avoid issues with default zig support
 -- local autocmd = vim.api.nvim_create_autocmd
