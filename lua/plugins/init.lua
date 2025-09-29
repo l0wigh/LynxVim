@@ -5,8 +5,15 @@ return {
 	-- Themes
 	{
 		"nyoom-engineering/oxocarbon.nvim",
+		"savq/melange-nvim",
+		"oahlen/iceberg.nvim",
 		"luisiacc/gruvbox-baby",
 		"edeneast/nightfox.nvim",
+		"maxmx03/solarized.nvim",
+		"sainnhe/everforest",
+		{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+		"sainnhe/edge",
+		{ "rose-pine/neovim", name = "rose-pine" },
 		"LunarVim/templeos.nvim",
 		{
 			"L0Wigh/zenith.nvim",

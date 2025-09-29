@@ -1,2 +1,3 @@
-vim.cmd.colorscheme("gruvbox-baby")
-vim.cmd.hi("Normal guibg=#1c1c1c")
+vim.cmd("set background=dark")
+vim.cmd.colorscheme("iceberg")
+vim.cmd.hi("Normal guibg=NONE")

@@ -13,6 +13,7 @@ require("lazy").setup({
 	{ import = "plugins" }
 })
 
+require("signal")
 require("mappings")
 require("options")
 require("theme")
