@@ -1,4 +1,4 @@
-# LynxVim 0.2.0
+# LynxVim 0.3.0
 
 Carefully crafted Neovim **config** that aims to be lightweight and reliable.
 
@@ -21,6 +21,8 @@ Mostly LSP stuff and themes. It also contains a custom LynxLine and some scripts
 Scripts included:
 - <leader>mm -> Compile with current makeprg command and open the quickfix list
 - <leader>ms -> Let user set a custom command for the current buffer (will work with <leader>mm or :make)
+
+There is also stuff related to [Soluna](https://github.com/L0Wigh/Soluna), that might be useless for you.
 
 ## Feels empty...
 
