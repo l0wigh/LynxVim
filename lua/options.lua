@@ -28,15 +28,16 @@ vim.cmd [[ set undodir=~/.cache/nvim_undodir ]]
 
 -- Fancy symbol for tabs charaters !
 vim.o.list = true
--- vim.cmd [[ set listchars=tab:\▏\ ]]
-vim.cmd [[ set listchars=tab:\ \ ]]
+vim.cmd [[ set listchars=tab:\▏\ ]]
+-- vim.cmd [[ set listchars=tab:\ \ ]]
 
 vim.cmd [[
 augroup MakeCommand
 	autocmd!
-	autocmd FileType c    setlocal makeprg=make
-	autocmd FileType rust setlocal makeprg=cargo\ build
-	autocmd FileType v    setlocal makeprg=v\ .
+	autocmd FileType c      setlocal makeprg=make
+	autocmd FileType rust   setlocal makeprg=cargo\ build
+	autocmd FileType v      setlocal makeprg=v\ .
+	autocmd FileType ocaml  setlocal makeprg=dune\ build
 augroup END
 ]]
 
@@ -44,6 +45,7 @@ vim.cmd [[
 	autocmd BufNewFile,BufRead *.s,*.S,*.asm :set filetype=nasm
 ]]
 
+	-- autocmd BufNewFile,BufRead *.luna :set filetype=none
 
 -- This comes from NVChad, it avoid issues with default zig support
 -- local autocmd = vim.api.nvim_create_autocmd

@@ -1,9 +1,83 @@
 return {
+	-- Soluna (DEV)
+	{
+		dir = "~/projects/soluna.nvim",
+		config = function ()
+			require("soluna").setup({
+				linter_delay = 0,
+				eval_disabled_at_start = true,
+				lint_on_save = true,
+				lint_on_change = false,
+				evaluation_style = "ghost",
+				evaluation_buffer_height = 10,
+			})
+			require("configs.soluna")
+		end
+	},
+	
+	-- {
+	-- 	"L0Wigh/soluna.nvim",
+	-- 	config = function()
+	-- 		require("soluna").setup({
+	-- 			linter_delay = 100,
+	-- 			lint_on_save = true,
+	-- 			lint_on_change = false,
+	-- 		})
+	-- 		require("configs.soluna")
+	-- 	end
+	-- },
+	
+	-- Manual Soluna Tree-sitter
+	{
+		"https://github.com/L0Wigh/tree-sitter-soluna",
+		config = function ()
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "soluna",
+				callback = function()
+					local install_path = vim.fn.stdpath("data") .. "/tree-sitter-soluna" 
+					if vim.fn.isdirectory(install_path) == 1 then
+						vim.opt_local.runtimepath:append(install_path)
+					end
+				end,
+			})
+			require("nvim-treesitter.parsers").get_parser_configs().soluna = {
+				install_info = {
+					url = "https://github.com/L0Wigh/tree-sitter-soluna",
+					files = { "src/parser.c" },
+					branch = "master"
+				},
+				filetype = "soluna"
+			}
+
+			vim.filetype.add({
+				extension = {
+					luna = "soluna",
+				},
+			})
+		end
+	},
+
+	-- Soluna specific
+	{
+		"gpanders/nvim-parinfer",
+		ft = {"clojure", "lisp", "racket", "scheme", "fennel", "soluna"},
+		config = function ()
+			vim.g.parinfer_filetypes = {"clojure", "lisp", "racket", "scheme", "fennel", "soluna"}
+			vim.g.parinfer_no_maps = 0
+			vim.cmd [[
+				iunmap <Tab>
+				iunmap <S-Tab>
+			]]
+		end
+	},
+
 	-- Required by some plugins
 	{"nvim-lua/plenary.nvim"},
 
 	-- Themes
 	{
+		"folke/tokyonight.nvim",
+		"Mofiqul/vscode.nvim",
 		"nyoom-engineering/oxocarbon.nvim",
 		"savq/melange-nvim",
 		"oahlen/iceberg.nvim",
