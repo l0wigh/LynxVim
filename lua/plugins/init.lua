@@ -1,40 +1,49 @@
 return {
-	-- Soluna (DEV)
 	{
-		dir = "~/projects/soluna.nvim",
-		config = function ()
-			require("soluna").setup({
-				linter_delay = 0,
-				eval_disabled_at_start = true,
-				lint_on_save = true,
-				lint_on_change = false,
-				evaluation_style = "ghost",
-				evaluation_buffer_height = 10,
-			})
-			require("configs.soluna")
+		"stevearc/conform.nvim",
+		opts = {
+		},
+		config = function()
+			require("configs.conform")
 		end
 	},
-	
+
+	-- Soluna (DEV)
 	-- {
-	-- 	"L0Wigh/soluna.nvim",
+	-- 	dir = "~/projects/soluna.nvim",
 	-- 	config = function()
 	-- 		require("soluna").setup({
-	-- 			linter_delay = 100,
+	-- 			linter_delay = 0,
+	-- 			eval_disabled_at_start = true,
 	-- 			lint_on_save = true,
 	-- 			lint_on_change = false,
+	-- 			evaluation_style = "buffer",
+	-- 			evaluation_buffer_height = 10,
 	-- 		})
 	-- 		require("configs.soluna")
 	-- 	end
 	-- },
-	
+
+	{
+		"L0Wigh/soluna.nvim",
+		config = function()
+			require("soluna").setup({
+				linter_delay = 100,
+				lint_on_save = true,
+				lint_on_change = false,
+			})
+			require("configs.soluna")
+		end
+	},
+
 	-- Manual Soluna Tree-sitter
 	{
 		"https://github.com/L0Wigh/tree-sitter-soluna",
-		config = function ()
+		config = function()
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "soluna",
 				callback = function()
-					local install_path = vim.fn.stdpath("data") .. "/tree-sitter-soluna" 
+					local install_path = vim.fn.stdpath("data") .. "/tree-sitter-soluna"
 					if vim.fn.isdirectory(install_path) == 1 then
 						vim.opt_local.runtimepath:append(install_path)
 					end
@@ -60,9 +69,9 @@ return {
 	-- Soluna specific
 	{
 		"gpanders/nvim-parinfer",
-		ft = {"clojure", "lisp", "racket", "scheme", "fennel", "soluna"},
-		config = function ()
-			vim.g.parinfer_filetypes = {"clojure", "lisp", "racket", "scheme", "fennel", "soluna"}
+		ft = { "clojure", "lisp", "racket", "scheme", "fennel", "soluna" },
+		config = function()
+			vim.g.parinfer_filetypes = { "clojure", "lisp", "racket", "scheme", "fennel", "soluna" }
 			vim.g.parinfer_no_maps = 0
 			vim.cmd [[
 				iunmap <Tab>
@@ -72,10 +81,13 @@ return {
 	},
 
 	-- Required by some plugins
-	{"nvim-lua/plenary.nvim"},
+	{ "nvim-lua/plenary.nvim" },
 
 	-- Themes
 	{
+		"anAcc22/sakura.nvim",
+		"thekylehuang/cole.nvim",
+		"ydkulks/cursor-dark.nvim",
 		"folke/tokyonight.nvim",
 		"Mofiqul/vscode.nvim",
 		"nyoom-engineering/oxocarbon.nvim",
@@ -85,7 +97,7 @@ return {
 		"edeneast/nightfox.nvim",
 		"maxmx03/solarized.nvim",
 		"sainnhe/everforest",
-		{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+		{ "catppuccin/nvim",  name = "catppuccin", priority = 1000 },
 		"sainnhe/edge",
 		{ "rose-pine/neovim", name = "rose-pine" },
 		"LunarVim/templeos.nvim",
@@ -108,8 +120,8 @@ return {
 	},
 
 	-- LSP / Colors / Server Manager
-	{"neovim/nvim-lspconfig"},
-	{"williamboman/mason-lspconfig.nvim"},
+	{ "neovim/nvim-lspconfig" },
+	{ "williamboman/mason-lspconfig.nvim" },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
@@ -124,12 +136,12 @@ return {
 	},
 
 	-- Autocompletion
-	{"windwp/nvim-autopairs"},
-	{"hrsh7th/cmp-nvim-lsp"},
-	{"hrsh7th/cmp-buffer"},
-	{"hrsh7th/cmp-path"},
-	{"hrsh7th/cmp-cmdline"},
-	{"saadparwaiz1/cmp_luasnip"},
+	{ "windwp/nvim-autopairs" },
+	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-cmdline" },
+	{ "saadparwaiz1/cmp_luasnip" },
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = "rafamadriz/friendly-snippets",
@@ -149,29 +161,25 @@ return {
 	-- Commenting
 	{
 		"terrortylor/nvim-comment",
-		config = function ()
+		config = function()
 			require("configs.comment")
 		end
 	},
 
 	-- LSP Signature
-	{
-		"ray-x/lsp_signature.nvim",
-		config = function ()
-			require("configs.signature")
-		end
-	},
+	-- {
+	-- 	"ray-x/lsp_signature.nvim",
+	-- 	config = function()
+	-- 		require("configs.signature")
+	-- 	end
+	-- },
 
 	-- Better Terminal
 	{
-		"akinsho/toggleterm.nvim", version = "*",
-		config = function ()
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		config = function()
 			require("configs.toggleterm")
 		end
-	},
-
-	-- Arturo support
-	{
-		"xigoi/vim-arturo"
 	},
 }

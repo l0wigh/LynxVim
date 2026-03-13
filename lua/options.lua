@@ -1,10 +1,14 @@
 vim.o.showmode = false
 vim.o.laststatus = 3
 vim.o.cursorline = true
+vim.o.cursorcolumn = true
 vim.o.wrap = false
 vim.o.scrolloff = 8
 vim.o.termguicolors = true
 vim.o.signcolumn = "no"
+
+-- Remove ~ from non-existing lines
+vim.opt.fillchars = { eob = " " }
 
 -- Line number
 vim.o.number = true
@@ -45,7 +49,7 @@ vim.cmd [[
 	autocmd BufNewFile,BufRead *.s,*.S,*.asm :set filetype=nasm
 ]]
 
-	-- autocmd BufNewFile,BufRead *.luna :set filetype=none
+-- autocmd BufNewFile,BufRead *.luna :set filetype=none
 
 -- This comes from NVChad, it avoid issues with default zig support
 -- local autocmd = vim.api.nvim_create_autocmd
@@ -74,3 +78,4 @@ vim.cmd [[
 --     end
 --   end,
 -- })
+--

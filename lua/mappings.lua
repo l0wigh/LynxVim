@@ -15,6 +15,8 @@ map("n", "<C-w>m", "<C-w>l")
 
 map("n", "<leader>bc", "<cmd>bdelete<CR>")
 map("n", "<leader>C", "<cmd>e ~/.config/nvim<CR>")
+map("n", "<leader>t", "<cmd>vsplit<CR><cmd>term<CR>")
+map("n", "<leader>T", "<cmd>split<CR><cmd>term<CR>")
 
 -- Insert mode bindings
 map("i", "jk", "<Esc>")

@@ -2,4 +2,4 @@
 -- require("lspconfig").zls.setup{}
 -- require("lspconfig").gleam.setup{}
 
-vim.lsp.enable({"zls", "gleam", "ocamllsp"})
+vim.lsp.enable({"gleam", "ocamllsp"})
