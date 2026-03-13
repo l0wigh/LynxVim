@@ -1,5 +1,5 @@
--- LynxLine 0.2.0 (Heavily inspired by Nothing design)
--- Insert or not status
+-- LynxLine 0.2.0 (HEAVILY inspired by Nothing design)
+-- Glyph bar representing multiple modes + Macro glyph becoming red when recording
 -- Filename that becomes red when modified
 -- Position in file represented by dots
 -- Current Function / Active signature in insert mode / Pinned text for easy access
@@ -7,8 +7,8 @@
 -- LSP errors, warning or LYNXVIM branding
 -- LSP server name
 -- Vibe meter (do you type fast or not)
--- Square that indicate macro recording status (red = recording)
 -- /!\ Many parts of this bar are vibe-coded. Nonetheless, the code is reviewed and tested.
+-- /!\ If you encounter performance issues, tell me
 
 local M = {}
 local lsp_cache = {}
@@ -160,8 +160,8 @@ end
 
 local function get_macro_recording()
 	local recording_register = vim.fn.reg_recording()
-	if recording_register == "" then return "%#LynxMain#■ " end
-	return "%#LynxLspErr#■ "
+	if recording_register == "" then return "%#LynxMuted#■" end
+	return "%#LynxLspErr#■"
 end
 
 local lsp_state = {}
@@ -234,6 +234,33 @@ local function get_visual_scroll()
 	return " " .. table.concat(positions, "")
 end
 
+local function get_glyph_bar()
+	local mode = vim.api.nvim_get_mode().mode
+	local glyph_off = "%#LynxMuted#■"
+	local glyph_on = "%#LynxMain#■"
+	local glyph_bar
+	if mode == "i" then
+		glyph_bar = table.concat({glyph_on, glyph_off, glyph_off, glyph_off, glyph_off, glyph_off})
+	elseif mode == "v" then
+		glyph_bar = table.concat({glyph_off, glyph_on, glyph_off, glyph_off, glyph_off, glyph_off})
+	elseif mode == "V" then
+		glyph_bar = table.concat({glyph_off, glyph_on, glyph_on, glyph_off, glyph_off, glyph_off})
+	elseif mode == "\22" then
+		glyph_bar = table.concat({glyph_off, glyph_on, glyph_on, glyph_on, glyph_off, glyph_off})
+	elseif mode == "c" then
+		glyph_bar = table.concat({glyph_off, glyph_off, glyph_on, glyph_off, glyph_off, glyph_off})
+	elseif mode == "R" then
+		glyph_bar = table.concat({glyph_off, glyph_off, glyph_off, glyph_on, glyph_off, glyph_off})
+	elseif mode == "t" then
+		glyph_bar = table.concat({glyph_off, glyph_off, glyph_off, glyph_off, glyph_on, glyph_off})
+	elseif mode == "no" then
+		glyph_bar = table.concat({glyph_off, glyph_off, glyph_off, glyph_off, glyph_off, glyph_on})
+	else
+		glyph_bar = table.concat({"■", "■", "■", "■", "■", "■"})
+	end
+	return "%#LynxMuted#" .. glyph_bar .. get_macro_recording()
+end
+
 Statusline = {}
 Statusline.active = function()
 	local mode = vim.api.nvim_get_mode().mode
@@ -242,7 +269,8 @@ Statusline.active = function()
 
 	return table.concat {
 		-- Left
-		"%#LynxMain# ", glyph,
+		" ",
+		get_glyph_bar(),
 		"%#LynxMuted#", " [", modified, "%t", "%#LynxMuted#", "]",
 		get_visual_scroll(),
 		get_lsp_context(),
@@ -253,7 +281,7 @@ Statusline.active = function()
 		get_diag(),
 		get_lsp_pulse(),
 		get_vibe(),
-		get_macro_recording(),
+		" ",
 	}
 end
 
@@ -282,11 +310,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, 100)
 	end,
-})
-
-vim.api.nvim_create_autocmd("CursorMoved", {
-	group = group,
-	callback = function() vim.cmd("redrawstatus") end,
 })
 
 vim.api.nvim_create_autocmd({"CursorMovedI", "InsertEnter"}, {
@@ -330,14 +353,16 @@ function lynxline_pin_text()
 	  return vim.fn.getregion(vim.fn.getpos "v", vim.fn.getpos ".", opts)
 	end
 	pinned_text = table.concat(selected_text())
+	vim.cmd("redrawstatus")
 end
 
 function lynxline_set_pin(text)
 	pinned_text = text
+	vim.cmd("redrawstatus")
 end
 
 function lynxline_clear_pin()
-	pinned_text = ""
+	lynxline_set_pin("")
 end
 
 return M

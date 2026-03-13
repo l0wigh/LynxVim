@@ -32,15 +32,14 @@ It has been now pushed to the max. It might not be your cup of tea. Basically it
 The bar is mostly vibe-coded. The code is still heavily reviewed and tested. If you don't like that I respect, you can easily disable the bar if you want.
 
 - Left side
-    - Insertion status
+    - Glyph bar (Nothing Phone 4a inspired) modes representation + Macro recording indicator
     - Filename that becomes red when the file isn't saved
     - Postion in the file
     - Current function or function definition or pinned text
 - Right side
     - LynxVim branding when no LSP diagnostics or LSP diagnostics
-    - LSP server name
-    - Vibe meter (Keystrokes counter)
-    - Macro recording indicator (red when recording)
+    - LSP server name (animated on loading)
+    - Vibe meter (Keystrokes counter kind of)
 
 ## Feels empty...
 

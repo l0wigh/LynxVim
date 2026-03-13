@@ -1,7 +1,7 @@
 vim.o.showmode = false
 vim.o.laststatus = 3
-vim.o.cursorline = true
-vim.o.cursorcolumn = true
+vim.o.cursorline = false
+vim.o.cursorcolumn = false
 vim.o.wrap = false
 vim.o.scrolloff = 8
 vim.o.termguicolors = true
