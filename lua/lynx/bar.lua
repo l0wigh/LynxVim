@@ -65,7 +65,17 @@ end
 local function refresh_signature_cache(bufnr)
 	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 	if #clients == 0 then return end
-	local params = vim.lsp.util.make_position_params(0, clients[1].offset_encoding)
+
+	local client = nil
+	for _, c in ipairs(clients) do
+		if c.server_capabilities.signatureHelpProvider then
+			client = c
+			break
+		end
+	end
+	if not client then return end
+
+	local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
 	vim.lsp.buf_request(bufnr, "textDocument/signatureHelp", params, function(err, result)
 		if err or not result or not result.signatures or #result.signatures == 0 then
 			sig_cache[bufnr] = nil

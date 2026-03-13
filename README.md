@@ -24,6 +24,24 @@ Scripts included:
 
 There is also stuff related to [Soluna](https://github.com/L0Wigh/Soluna), that might be useless for you.
 
+## LynxLine 0.2.X
+
+The LynxLine is probably the heaviest part of the config. At first (0.1.0) it was a pretty simple bar that showed almost no informations.
+It has been now pushed to the max. It might not be your cup of tea. Basically it contains a large number of informations that are showed dynamically.
+
+The bar is mostly vibe-coded. The code is still heavily reviewed and tested. If you don't like that I respect, you can easily disable the bar if you want.
+
+- Left side
+    - Insertion status
+    - Filename that becomes red when the file isn't saved
+    - Postion in the file
+    - Current function or function definition or pinned text
+- Right side
+    - LynxVim branding when no LSP diagnostics or LSP diagnostics
+    - LSP server name
+    - Vibe meter (Keystrokes counter)
+    - Macro recording indicator (red when recording)
+
 ## Feels empty...
 
 That's right, I wanted something really basic and where I do my own "plugins". That avoid breaking changes and unwanted behaviors.
