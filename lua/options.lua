@@ -35,6 +35,9 @@ vim.o.list = true
 vim.cmd [[ set listchars=tab:\▏\ ]]
 -- vim.cmd [[ set listchars=tab:\ \ ]]
 
+-- Thanks TPope
+vim.cmd [[ autocmd VimResized * wincmd = ]]
+
 vim.cmd [[
 augroup MakeCommand
 	autocmd!
@@ -46,8 +49,21 @@ augroup END
 ]]
 
 vim.cmd [[
-	autocmd BufNewFile,BufRead *.s,*.S,*.asm :set filetype=nasm
+	autocmd BufNewFile,BufRead *.s,*.S,*.asm :set filetype=fasm
 ]]
+
+function LinesColors()
+	local hl_main = vim.api.nvim_get_hl(0, { name = "DiagnosticError" })
+	local hl_line = vim.api.nvim_get_hl(0, { name = "Comment" })
+	vim.api.nvim_set_hl(0, 'LineNr', { fg=hl_main.fg, bg="NONE", bold=true })
+	vim.api.nvim_set_hl(0, 'LineNrAbove', { fg=hl_line.fg, bg="NONE" })
+	vim.api.nvim_set_hl(0, 'LineNrBelow', { fg=hl_line.fg, bg="NONE" })
+end
+LinesColors()
+
+if vim.g.neovide then
+	vim.o.guifont = "BlexMono Nerd Font:h8"
+end
 
 -- autocmd BufNewFile,BufRead *.luna :set filetype=none
 

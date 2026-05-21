@@ -8,6 +8,43 @@ return {
 		end
 	},
 
+	-- {
+	-- 	'stevearc/oil.nvim',
+	-- 	opts = {},
+	-- 	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+	-- 	config = function ()
+	-- 		require("configs.oil")
+	-- 	end,
+	-- 	lazy = false,
+	-- },
+
+	{
+		'nvim-mini/mini.files', version = '*',
+		config = function ()
+			require("configs.mini-files")
+		end,
+		lazy = false,
+	},
+
+	-- Rust specific
+	{
+		'mrcjkb/rustaceanvim',
+		version = '8.0.5',
+		lazy = false,
+	},
+	{
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter"
+		},
+		config = function ()
+			require("configs.neotest")
+		end
+	},
+
 	-- Soluna (DEV)
 	-- {
 	-- 	dir = "~/projects/soluna.nvim",

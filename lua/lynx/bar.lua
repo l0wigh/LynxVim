@@ -20,11 +20,12 @@ local function setup_highlights()
 	local hl_err = vim.api.nvim_get_hl(0, { name = "DiagnosticError" })
 	local hl_warn = vim.api.nvim_get_hl(0, { name = "DiagnosticWarn" })
 	local hl_msg = vim.api.nvim_get_hl(0, { name = "Normal" })
+	local hl_muted = vim.api.nvim_get_hl(0, { name = "Comment" })
 
 	local error_color = hl_err.fg or "#FF0000"
 	local warn_color = hl_warn.fg or "#FFA500"
 	local fg_color = hl_msg.fg or "#FFFFFF"
-	local muted_color = "#444444"
+	local muted_color = hl_muted.fg or "#444444"
 
 	vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE", fg = fg_color })
 	vim.api.nvim_set_hl(0, "LynxMain", { fg = fg_color, bg = "NONE", bold = true })
